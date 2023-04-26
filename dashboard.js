@@ -5,49 +5,7 @@
 
   feather.replace({ 'aria-hidden': 'true' })
 
-  // Graphs
-  const ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
-  const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          boxPadding: 3
-        }
-      }
-    }
-  })
+ 
 })()
 
 const search =()=>{
@@ -62,85 +20,36 @@ let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
 }
 
 
-const searchForm = document.querySelector("#search-form");
-const searchFormInput = searchForm.querySelector("#word"); // <=> document.querySelector("#search-form input");
-const info = document.querySelector(".info");
+// Get DOM elements
+const searchInput = document.querySelector('#word');
+const startButton = document.getElementById('startIcon');
+const resultsList = document.getElementById('info');
 
-// The speech recognition interface lives on the browser’s window object
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; // if none exists -> undefined
+// Create SpeechRecognition instance
+const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+recognition.lang = 'en-US';
 
-if(SpeechRecognition) {
-  console.log("Your Browser supports speech Recognition");
-  
-  const recognition = new SpeechRecognition();
-  recognition.continuous = true;
-  recognition.lang = "en-US";
+// Add event listeners
+startButton.addEventListener('click', startRecognition);
+recognition.addEventListener('result', handleRecognitionResult);
 
-  // searchForm.insertAdjacentHTML("beforeend", '<button type="button"><i class="fas fa-microphone"></i></button>');
-  // searchFormInput.style.paddingRight = "50px";
-
-  const micBtn = searchForm.querySelector("#word input");
-  const micIcon = document.querySelector("#word #micIc");
-
-  micBtn.addEventListener("click", micBtnClick);
-  function micBtnClick() {
-    if(micIcon.classList.contains("fa fa-microphone microphone-ico")) { // Start Voice Recognition
-      recognition.start(); // First time you have to allow access to mic!
-    }
-    else {
-      recognition.stop();
-    }
-  }
-
-  recognition.addEventListener("start", startSpeechRecognition); // <=> recognition.onstart = function() {...}
-  function startSpeechRecognition() {
-    micIcon.classList.remove("fa-microphone");
-    micIcon.classList.add("fa-microphone-slash");
-    searchFormInput.focus();
-    console.log("Voice activated, SPEAK");
-  }
-
-  recognition.addEventListener("end", endSpeechRecognition); // <=> recognition.onend = function() {...}
-  function endSpeechRecognition() {
-    micIcon.classList.remove("fa-microphone-slash");
-    micIcon.classList.add("fa-microphone");
-    searchFormInput.focus();
-    console.log("Speech recognition service disconnected");
-  }
-
-  recognition.addEventListener("result", resultOfSpeechRecognition); // <=> recognition.onresult = function(event) {...} - Fires when you stop talking
-  function resultOfSpeechRecognition(event) {
-    const current = event.resultIndex;
-    const transcript = event.results[current][0].transcript;
-    
-    if(transcript.toLowerCase().trim()==="stop recording") {
-      recognition.stop();
-    }
-    else if(!searchFormInput.value) {
-      searchFormInput.value = transcript;
-    }
-    else {
-      if(transcript.toLowerCase().trim()==="go") {
-        searchForm.submit();
-      }
-      else if(transcript.toLowerCase().trim()==="reset input") {
-        searchFormInput.value = "";
-      }
-      else {
-        searchFormInput.value = transcript;
-      }
-    }
-    // searchFormInput.value = transcript;
-    // searchFormInput.focus();
-    // setTimeout(() => {
-    //   searchForm.submit();
-    // }, 500);
-  }
-  
-  info.textContent = 'Voice Commands: "stop recording", "reset input", "go"';
-  
+// Start voice recognition
+function startRecognition() {
+  recognition.start();
 }
-else {
-  console.log("Your Browser does not support speech Recognition");
-  info.textContent = "Your Browser does not support Speech Recognition";
+
+// Handle voice recognition result
+function handleRecognitionResult(event) {
+  const transcript = event.results[0][0].transcript;
+  searchInput.value = transcript;
+  performDictionarySearch(transcript);
+}
+
+// Perform dictionary search
+function performDictionarySearch(keyword) {
+  // Replace this with your actual dictionary API call or custom dictionary logic
+  // For demonstration purposes, just displaying the search keyword as a result
+  const li = document.createElement('li');
+  li.textContent = `Search: ${keyword}`;
+  resultsList.appendChild(li);
 }
