@@ -149,7 +149,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <form id="search-form" class="search-bar w-100 mx-2">
-    <input type="text" aria-label="Search" id="word" class="form-control form-control-light w-100 rounded-4 border-2" name="q" placeholder="Search a word..." autocomplete="off" autofocus />
+    <input type="search" aria-label="Search" id="word" class="form-control form-control-light w-100 rounded-4 border-2" placeholder="Search a word..." autocomplete="off" autofocus />
     <i id="searchIcon" class="fa fa-search search-ico" onclick="search()"></i>
     <i id="startIcon" class="fa fa-microphone microphone-ico"></i>
   </form>
@@ -176,32 +176,32 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="file" class="align-text-bottom"></span>
-              Orders
+              <span data-feather="book-open" class="align-text-bottom"></span>
+              Word of the Day
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Products
+              <span data-feather="bookmark" class="align-text-bottom"></span>
+              Bookmarks
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="users" class="align-text-bottom"></span>
-              Customers
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              Notes
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-              Reports
+              <span data-feather="shuffle" class="align-text-bottom"></span>
+              Random word
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="layers" class="align-text-bottom"></span>
-              Integrations
+              <span data-feather="info" class="align-text-bottom"></span>
+              Help
             </a>
           </li>
         </ul>
@@ -209,20 +209,21 @@
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
           <span>Saved History</span>
           <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle" class="align-text-bottom"></span>
+            <span data-feather="check" class="align-text-bottom"></span>
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
+              <span data-feather="calendar" class="align-text-bottom"></span>
               Current month
             </a>
           </li>
+          <hr>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Last quarter
+              <span data-feather="dollar-sign" class="align-text-bottom"></span>
+              Donation
             </a>
           </li>
           <li class="nav-item">
@@ -237,7 +238,7 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h3">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -251,9 +252,10 @@
             <span data-feather="volume-2" class="align-text-bottom"></span>
            listen
           </button>
+         
         </div>
       </div>     
-      
+      <div id="wordSearch"></div>
     </main>
   </div>
 </div>

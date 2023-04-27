@@ -9,13 +9,28 @@
 })()
 
 const search =()=>{
+  wordSearch.innerHTML = ""
   let wordText = word.value
+  
 let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
 .then(data => {
   return data.json();
   })
-  .then(meaning => {
-  console.log(meaning);
+  .then(result => {
+    console.log(result);
+    result.map((item, arr)=>{
+      var phonetics = item.phonetics
+      const phonet = [...phonetics]
+      console.log(phonet[3].audio);
+      wordSearch.innerHTML += `
+      <h3 class="mb-0">${item.word}</h3>
+      <p>${item.phonetic}</p>
+      <audio src=${phonet[0].audio} controls>bg</audio>
+      `
+      
+     
+    })
+    
   });
 }
 
