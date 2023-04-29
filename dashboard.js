@@ -5,10 +5,11 @@
 
  
 })()
-searchIco.addEventListener('click', search);
-const search =(event)=>{
-  event.preventDefault();
+// searchIco.addEventListener('click', search);
+const search =async()=>{
+  // event.preventDefault();
   wordSearch.innerHTML = ""
+  error.innerHTML = ""
   let wordText = word.value
   loading.style.display = 'block';
 let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
@@ -22,6 +23,7 @@ let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
     const word = data[0].word;
     const phonetics = data[0].phonetics.map(phonetic => phonetic.text);
     const phonaudio = data[0].phonetics.map(phonetic => phonetic.audio);
+    console.log(phonaudio);
     const definitions = data[0].meanings.map(meaning => ({
       partOfSpeech: meaning.partOfSpeech,
       definition: meaning.definitions[0].definition,
@@ -29,14 +31,21 @@ let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
       antonyms: meaning.definitions[0].antonyms,
       example: meaning.definitions[0].example,
     }));
-
+    let existAudio = phonaudio.filter((item, index, array)=>item != "")
+    let realaudio = existAudio[0]
+    console.log(realaudio);
+    if (!realaudio) {
+    error.textContent = "No voice available for " + word
+      realaudio = "https://example.com/no-voice-available.mp3";
+    }
     const html = `
     <div class="d-flex  justify-content-between">
     <h2>${word}</h2>
-          ${phonaudio !== '' ? `<audio id="player" src=${phonaudio}></audio>` : ''}
+    
+    <audio id="player" src=${realaudio}></audio>
           <i onclick="document.getElementById('player').play()" class="fa-regular fa-circle-play"></i>
           <i onclick="changeMark()" id="book" class="fa-regular fa-bookmark" style="display:block"></i>
-          <i id="book2" class="fas fa-bookmark" style="display:none"></i>
+          <i onclick="changeMark()" id="book2" class="fas fa-bookmark" style="display:none"></i>
         </div>
       <div class="phonetics">
         <p><strong>Phonetics:</strong></p>
@@ -111,15 +120,22 @@ function performDictionarySearch(keyword) {
 }
 
 const changeMark =()=>{
-  if (book.style == "display:block") {
-    book.style = "display:none"
-  book2.style = "display:block"
-  book2.style.color = "blue"
-  } else {
-    book.style = "display:block"
-  book2.style = "display:none"
-  book2.style.color = "black"
+  let book = document.getElementById('book');
+  let book2 = document.getElementById('book2');
+  // console.log(changeMark);
+  
+  if (book.style.display == "block") {
+    book.style.display = "none";
+    book2.style.display = "block";
+    book2.style.color = "blue";
+  } else if (book.style.display == "none") {
+    book.style.display = "block";
+    book2.style.display = "none";
+    book2.style.color = "black";
   }
+  
+  
+
 
   
 }
