@@ -117,3 +117,49 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+#wordSearch {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.definitions {
+  margin-bottom: 20px;
+}
+
+.definition {
+  margin-bottom: 20px;
+}
+
+.synonyms {
+  margin-bottom: 20px;
+}
+
+.antonyms {
+  margin-bottom: 20px;
+}
+
+.example {
+  margin-bottom: 20px;
+}
+
+.part-of-speech {
+  margin-bottom: 20px;
+}
+
+.phonetics {
+  margin-bottom: 20px;
+}
+
+

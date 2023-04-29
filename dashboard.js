@@ -1,5 +1,3 @@
-/* globals Chart:false, feather:false */
-
 (() => {
   'use strict'
 
@@ -7,30 +5,73 @@
 
  
 })()
-
-const search =()=>{
+searchIco.addEventListener('click', search);
+const search =(event)=>{
+  event.preventDefault();
   wordSearch.innerHTML = ""
   let wordText = word.value
-  
+  loading.style.display = 'block';
 let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
+
 .then(data => {
   return data.json();
   })
-  .then(result => {
-    console.log(result);
-    result.map((item, arr)=>{
-      var phonetics = item.phonetics
-      const phonet = [...phonetics]
-      console.log(phonet[3].audio);
-      wordSearch.innerHTML += `
-      <h3 class="mb-0">${item.word}</h3>
-      <p>${item.phonetic}</p>
-      <audio src=${phonet[0].audio} controls>bg</audio>
-      `
-      
-     
-    })
-    
+  .then(data => {
+    loading.style.display = 'none';
+    const responseDiv = document.getElementById('wordSearch');
+    const word = data[0].word;
+    const phonetics = data[0].phonetics.map(phonetic => phonetic.text);
+    const phonaudio = data[0].phonetics.map(phonetic => phonetic.audio);
+    const definitions = data[0].meanings.map(meaning => ({
+      partOfSpeech: meaning.partOfSpeech,
+      definition: meaning.definitions[0].definition,
+      synonyms: meaning.definitions[0].synonyms,
+      antonyms: meaning.definitions[0].antonyms,
+      example: meaning.definitions[0].example,
+    }));
+
+    const html = `
+    <div class="d-flex  justify-content-between">
+    <h2>${word}</h2>
+          ${phonaudio !== '' ? `<audio id="player" src=${phonaudio}></audio>` : ''}
+          <i onclick="document.getElementById('player').play()" class="fa-regular fa-circle-play"></i>
+          <i onclick="changeMark()" id="book" class="fa-regular fa-bookmark" style="display:block"></i>
+          <i id="book2" class="fas fa-bookmark" style="display:none"></i>
+        </div>
+      <div class="phonetics">
+        <p><strong>Phonetics:</strong></p>
+        ${phonetics.map(phonetic => `
+          <p>${phonetic}</p>
+        `).join('')}
+      </div>
+      ${definitions.map(definition => `
+        <div class="definitions">
+          <div class="part-of-speech">
+            <p><strong>Part of speech:</strong> ${definition.partOfSpeech}</p>
+          </div>
+          <div class="definition">
+            <p><strong>Definition:</strong> ${definition.definition}</p>
+            ${definition.synonyms && definition.synonyms.length > 0 ? `
+              <div class="synonyms">
+                <p><strong>Synonyms:</strong> ${definition.synonyms.join(', ')}</p>
+              </div>
+            ` : ''}
+            ${definition.antonyms && definition.antonyms.length > 0 ? `
+              <div class="antonyms">
+                <p><strong>Antonyms:</strong> ${definition.antonyms.join(', ')}</p>
+              </div>
+            ` : ''}
+            ${definition.example ? `
+              <div class="example">
+                <p><strong>Example:</strong> ${definition.example}</p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `).join('')}
+    `;
+
+    responseDiv.innerHTML = html;
   });
 }
 
@@ -68,3 +109,18 @@ function performDictionarySearch(keyword) {
   li.textContent = `Search: ${keyword}`;
   resultsList.appendChild(li);
 }
+
+const changeMark =()=>{
+  if (book.style == "display:block") {
+    book.style = "display:none"
+  book2.style = "display:block"
+  book2.style.color = "blue"
+  } else {
+    book.style = "display:block"
+  book2.style = "display:none"
+  book2.style.color = "black"
+  }
+
+  
+}
+
