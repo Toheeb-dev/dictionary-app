@@ -148,9 +148,9 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <form id="search-form" role="search" method="get" class="search-bar w-100 mx-2">
+  <form id="search-form" onsubmit="search(event)" role="search" method="get" class="search-bar w-100 mx-2">
     <input type="search" aria-label="Search" id="word" class="form-control form-control-light w-100 rounded-4 border-2" placeholder="Search a word..." autocomplete="off" autofocus />
-    <i id="searchIcon" class="fa fa-search search-ico" onclick="search()"></i>
+    <i id="searchIcon" class="fa fa-search search-ico" onclick="search(event)"></i>
     <i id="startIcon" class="fa fa-microphone microphone-ico"></i>
   </form>
   <ul id="info"></ul>  
@@ -256,7 +256,7 @@
         </div>
       </div>     
       <i><small id="error" class="text-danger fw-bold text-center"></small></i>
-      <div id="wordSearch"></div>
+      <div id="wordSearch"><i><h4 class="fw-bold text-center">Search a word...</h4></i></div>
       <div id="loading" class="text-center" style="display: none;">
         <div class="loadingio-spinner-magnify-1mtt7ro50ov"><div class="ldio-7o3vm65sapu">
           <div><div><div></div><div></div></div></div>

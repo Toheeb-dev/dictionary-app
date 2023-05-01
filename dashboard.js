@@ -6,13 +6,13 @@
  
 })()
 // searchIco.addEventListener('click', search);
-const search =async()=>{
-  // event.preventDefault();
+const search =async(e)=>{
+  e.preventDefault();
   wordSearch.innerHTML = ""
   error.innerHTML = ""
   let wordText = word.value
   loading.style.display = 'block';
-let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
+let link = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
 
 .then(data => {
   return data.json();
@@ -36,7 +36,7 @@ let link = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
     console.log(realaudio);
     if (!realaudio) {
     error.textContent = "No voice available for " + word
-      realaudio = "https://example.com/no-voice-available.mp3";
+      realaudio = "Amber (Female).mp3";
     }
     const html = `
     <div class="d-flex  justify-content-between">
