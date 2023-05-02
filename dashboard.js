@@ -81,7 +81,11 @@ let link = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word
     `;
 
     responseDiv.innerHTML = html;
-  });
+  }).catch(err => {
+    if (err) {
+      wordSearch.innerHTML = `<i><p class="text-center fw-bold">We are sorry, word not found! Try another one...</p></i>`
+    }
+  });;
 }
 
 
