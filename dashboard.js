@@ -3,47 +3,48 @@
 
   feather.replace({ 'aria-hidden': 'true' })
 
- 
+
 })()
 // searchIco.addEventListener('click', search);
-const search =async(e)=>{
+const search = async (e) => {
   e.preventDefault();
   wordSearch.innerHTML = ""
   error.innerHTML = ""
   let wordText = word.value
-  loading.style.display = 'block';
-let link = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
 
-.then(data => {
-  return data.json();
-  })
-  .then(data => {
-    loading.style.display = 'none';
-    const responseDiv = document.getElementById('wordSearch');
-    const word = data[0].word;
-    const phonetics = data[0].phonetics.map(phonetic => phonetic.text);
-    const phonaudio = data[0].phonetics.map(phonetic => phonetic.audio);
-    console.log(phonaudio);
-    const definitions = data[0].meanings.map(meaning => ({
-      partOfSpeech: meaning.partOfSpeech,
-      definition: meaning.definitions[0].definition,
-      synonyms: meaning.definitions[0].synonyms,
-      antonyms: meaning.definitions[0].antonyms,
-      example: meaning.definitions[0].example,
-    }));
-    let existAudio = phonaudio.filter((item, index, array)=>item != "")
-    let realaudio = existAudio[0]
-    console.log(realaudio);
-    if (!realaudio) {
-    error.textContent = "No voice available for " + word
-      realaudio = "Amber (Female).mp3";
-    }
-    const html = `
+  loading.style.display = 'block';
+  let link = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + wordText)
+
+    .then(data => {
+      return data.json();
+    })
+    .then(data => {
+      loading.style.display = 'none';
+      const responseDiv = document.getElementById('wordSearch');
+      const word = data[0].word;
+      const phonetics = data[0].phonetics.map(phonetic => phonetic.text);
+      const phonaudio = data[0].phonetics.map(phonetic => phonetic.audio);
+      console.log(phonaudio);
+      const definitions = data[0].meanings.map(meaning => ({
+        partOfSpeech: meaning.partOfSpeech,
+        definition: meaning.definitions[0].definition,
+        synonyms: meaning.definitions[0].synonyms,
+        antonyms: meaning.definitions[0].antonyms,
+        example: meaning.definitions[0].example,
+      }));
+      let existAudio = phonaudio.filter((item, index, array) => item != "")
+      let realaudio = existAudio[0]
+      console.log(realaudio);
+      if (!realaudio) {
+        error.textContent = "No voice available for " + word
+        realaudio = "Amber (Female).mp3";
+      }
+      const html = `
     <div class="d-flex  justify-content-between">
     <h2>${word}</h2>
     
     <audio id="player" src=${realaudio}></audio>
-          <i onclick="document.getElementById('player').play()" class="fa-regular fa-circle-play"></i>
+          <i onclick="document.getElementById('player').play()" id="playIcon" class="fa-regular fa-circle-play"></i>
           <i onclick="changeMark()" id="book" class="fa-regular fa-bookmark" style="display:block"></i>
           <i onclick="changeMark()" id="book2" class="fas fa-bookmark" style="display:none"></i>
         </div>
@@ -80,12 +81,12 @@ let link = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word
       `).join('')}
     `;
 
-    responseDiv.innerHTML = html;
-  }).catch(err => {
-    if (err) {
-      wordSearch.innerHTML = `<i><p class="text-center fw-bold">We are sorry, word not found! Try another one...</p></i>`
-    }
-  });;
+      responseDiv.innerHTML = html;
+    }).catch(err => {
+      if (err) {
+        wordSearch.innerHTML = `<i><p class="text-center fw-bold">We are sorry, word not found! Try another one...</p></i>`
+      }
+    });
 }
 
 
@@ -123,11 +124,11 @@ function performDictionarySearch(keyword) {
   resultsList.appendChild(li);
 }
 
-const changeMark =()=>{
+const changeMark = () => {
   let book = document.getElementById('book');
   let book2 = document.getElementById('book2');
   // console.log(changeMark);
-  
+
   if (book.style.display == "block") {
     book.style.display = "none";
     book2.style.display = "block";
@@ -137,10 +138,10 @@ const changeMark =()=>{
     book2.style.display = "none";
     book2.style.color = "black";
   }
-  
-  
 
 
-  
+
+
+
 }
 

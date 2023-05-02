@@ -162,4 +162,7 @@ p {
   margin-bottom: 20px;
 }
 
+#playIcon:hover, :visited, :focus{
+ color: #2470dc;
+}
 
